@@ -14,14 +14,29 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
 
     private MovieListContract.MovieListView view;
 
+    //-------------------------- Initial settings --------------------------------------------------
+
     public MovieListPresenter(MovieListContract.MovieListView view) {
         this.view = view;
     }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Manage view -------------------------------------------------------
 
     @Override
     public void setView(MovieListContract.MovieListView view) {
         this.view = view;
     }
+
+    @Override
+    public void destroyView() {
+        this.view = null;
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- API Call ----------------------------------------------------------
 
     @Override
     public void getMovies() {
@@ -47,9 +62,6 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
 
     }
 
-    @Override
-    public void destroyView() {
-        this.view = null;
-    }
+    //----------------------------------------------------------------------------------------------
 
 }

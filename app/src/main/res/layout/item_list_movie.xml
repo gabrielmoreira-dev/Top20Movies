@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_list_layout"
-    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    app:cardBackgroundColor="#dd222222"
+    app:cardCornerRadius="8dp">
 
-    <TextView
-        android:id="@+id/list_movie_title"
+    <RelativeLayout
+        android:id="@+id/item_list_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Teste"/>
+        android:layout_height="wrap_content">
+        
+        <!-- Poster -->
+        <ImageView
+            android:id="@+id/image_movie_poster"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"/>
 
-</LinearLayout>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/list_movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_movie_poster"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            tools:text="Title"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

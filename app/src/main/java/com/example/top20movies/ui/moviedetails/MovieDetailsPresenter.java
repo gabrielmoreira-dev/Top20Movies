@@ -1,7 +1,5 @@
 package com.example.top20movies.ui.moviedetails;
 
-import android.widget.Toast;
-
 import com.example.top20movies.data.model.MovieDetails;
 import com.example.top20movies.data.network.MovieDetailsAPI;
 import com.example.top20movies.data.network.MoviesService;
@@ -14,14 +12,29 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     private MovieDetailsContract.MovieDetailsView view;
 
+    //-------------------------- Initial settings --------------------------------------------------
+
     public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view) {
         this.view = view;
     }
 
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Manage view -------------------------------------------------------
+
     @Override
     public void setView(MovieDetailsContract.MovieDetailsView view) {
-
+        this.view = view;
     }
+
+    @Override
+    public void destroyView() {
+        this.view = null;
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- API Call ----------------------------------------------------------
 
     @Override
     public void getMovieDetails(int id) {
@@ -43,11 +56,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
                 view.showErrorMessage(t.getMessage());
             }
         });
+
     }
 
-    @Override
-    public void destroyView() {
-        this.view = null;
-    }
+    //----------------------------------------------------------------------------------------------
 
 }

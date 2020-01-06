@@ -3,7 +3,9 @@ package com.example.top20movies.ui.movielist;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.top20movies.R;
 import com.example.top20movies.data.model.Movie;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListViewHolder> {
@@ -19,25 +23,35 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     private List<Movie> movies;
     private MovieClickListener movieClickListener;
 
+    //-------------------------- Initial Settings --------------------------------------------------
+
     public MovieListAdapter(MovieClickListener movieClickListener) {
         this.movieClickListener = movieClickListener;
-    }
-
-    public static class MovieListViewHolder extends RecyclerView.ViewHolder{
-
-        private LinearLayout linearLayout;
-        private TextView title;
-
-        public MovieListViewHolder(@NonNull View view) {
-            super(view);
-            this.title = view.findViewById(R.id.list_movie_title);
-            this.linearLayout = view.findViewById(R.id.item_list_layout);
-        }
-
+        this.movies = new ArrayList<>();
     }
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
+        notifyDataSetChanged();
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- View Holder -------------------------------------------------------
+
+    public static class MovieListViewHolder extends RecyclerView.ViewHolder{
+
+        private RelativeLayout relativeLayout;
+        private TextView title;
+        private ImageView poster;
+
+        public MovieListViewHolder(@NonNull View view) {
+            super(view);
+            this.title = view.findViewById(R.id.list_movie_title);
+            this.poster = view.findViewById(R.id.image_movie_poster);
+            this.relativeLayout = view.findViewById(R.id.item_list_layout);
+        }
+
     }
 
     @NonNull
@@ -50,9 +64,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public void onBindViewHolder(@NonNull MovieListViewHolder holder, int position) {
         holder.title.setText(movies.get(position).getTitle());
+        Picasso.get().load(movies.get(position).getPoster_url()).into(holder.poster);
 
-        //Set on click listener
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        //Set click listener
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 movieClickListener.onMovieClick(movies.get(position));
@@ -65,10 +80,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         return movies.size();
     }
 
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Click Listener ----------------------------------------------------
+
     public interface MovieClickListener{
 
         void onMovieClick(Movie movie);
 
     }
+
+    //----------------------------------------------------------------------------------------------
 
 }
