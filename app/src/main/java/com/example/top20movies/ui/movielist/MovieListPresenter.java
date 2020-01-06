@@ -1,7 +1,7 @@
 package com.example.top20movies.ui.movielist;
 
 import com.example.top20movies.data.model.Movie;
-import com.example.top20movies.data.network.JsonApi;
+import com.example.top20movies.data.network.MovieListAPI;
 import com.example.top20movies.data.network.MoviesService;
 
 import java.util.List;
@@ -13,6 +13,7 @@ import retrofit2.Response;
 public class MovieListPresenter implements MovieListContract.MovieListPresenter {
 
     private MovieListContract.MovieListView view;
+    private List<Movie> movieList;
 
     public MovieListPresenter(MovieListContract.MovieListView view) {
         this.view = view;
@@ -26,7 +27,7 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
     @Override
     public void getMovies() {
 
-        JsonApi api = MoviesService.getService();
+        MovieListAPI api = MoviesService.getService();
 
         Call<List<Movie>> call = api.getMovies();
         call.enqueue(new Callback<List<Movie>>() {
@@ -36,8 +37,8 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                     view.showErrorMessage("Erro: "+response.code());
                     return;
                 }
-                List<Movie> movies = response.body();
-                view.showMovies(movies);
+                movieList = response.body();
+                view.showMovies(movieList);
             }
 
             @Override

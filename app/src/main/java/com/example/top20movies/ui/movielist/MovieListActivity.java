@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.top20movies.R;
 import com.example.top20movies.data.model.Movie;
+import com.example.top20movies.ui.moviedetails.MovieDetailsActivity;
 
 import java.util.List;
 
-public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView {
+public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
 
     private RecyclerView recyclerView;
     private MovieListContract.MovieListPresenter presenter;
@@ -31,6 +34,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
     }
 
     private void setPresenter(){
@@ -40,7 +44,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
 
     @Override
     public void showMovies(List<Movie> movies){
-        RecyclerView.Adapter adapter = new MovieListAdapter();
+        RecyclerView.Adapter adapter = new MovieListAdapter(this);
         ((MovieListAdapter) adapter).setMovies(movies);
         recyclerView.setAdapter(adapter);
     }
@@ -48,7 +52,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
 
     @Override
     public void showErrorMessage(String msg){
-        //
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
 
     //Break the view reference in presenter on view destroy
@@ -56,5 +60,12 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     protected void onDestroy() {
         super.onDestroy();
         presenter.destroyView();
+    }
+
+    @Override
+    public void onMovieClick(Movie movie) {
+        Toast.makeText(this,"Test"+movie.getId(),Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        startActivity(intent);
     }
 }

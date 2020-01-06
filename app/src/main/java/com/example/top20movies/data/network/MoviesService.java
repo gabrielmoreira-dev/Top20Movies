@@ -5,9 +5,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MoviesService {
 
-    public static JsonApi getService(){
+    public static MovieListAPI getService(){
 
-        return setURL().create(JsonApi.class);
+        return setURL().create(MovieListAPI.class);
+
+    }
+
+    public static MovieDetailsAPI getMovieDetails(int id){
+
+        return setURL().create(MovieDetailsAPI.class);
 
     }
 
