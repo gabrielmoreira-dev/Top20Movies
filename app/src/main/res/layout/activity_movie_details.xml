@@ -6,9 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".ui.moviedetails.MovieDetailsActivity">
 
-    <TextView
-        android:id="@+id/movie_details_id"
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image-movie-details"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="fitXY"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/image-movie-details"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/movie_details_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                tools:text="Title"/>
+
+            <TextView
+                android:id="@+id/movie_details_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/movie_details_title"
+                android:layout_marginBottom="10dp"
+                tools:text="Year"/>
+
+            <TextView
+                android:id="@+id/movie_details_genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/movie_details_year"
+                android:layout_marginBottom="10dp"
+                tools:text="Genres"/>
+
+            <TextView
+                android:id="@+id/movie_details_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/movie_details_genres"
+                android:layout_marginBottom="10dp"
+                tools:text="Overview"/>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

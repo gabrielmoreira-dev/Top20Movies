@@ -4,16 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.top20movies.R;
 import com.example.top20movies.data.model.MovieDetails;
+import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailsContract.MovieDetailsView {
 
     private int id;
-    private TextView tv;
+    private TextView title;
+    private TextView year;
+    private TextView genres;
+    private TextView overview;
+    private ImageView backdrop;
     private MovieDetailsContract.MovieDetailsPresenter presenter;
 
     //-------------------------- Initial settings --------------------------------------------------
@@ -24,8 +30,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         setContentView(R.layout.activity_movie_details);
 
         setId();
-        setTextField();
-        setPresenter();
+        configureComponents();
+        configurePresenter();
     }
 
     private void setId(){
@@ -33,11 +39,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         id = intent.getIntExtra("id",0);
     }
 
-    private void setTextField(){
-        tv = findViewById(R.id.movie_details_id);
+    private void configureComponents(){
+        this.title = findViewById(R.id.movie_details_title);
+        this.year = findViewById(R.id.movie_details_year);
+        this.genres = findViewById(R.id.movie_details_genres);
+        this.overview = findViewById(R.id.movie_details_overview);
+        this.backdrop = findViewById(R.id.image_movie_details);
     }
 
-    private void setPresenter(){
+
+    private void configurePresenter(){
         presenter = new MovieDetailsPresenter(this);
         presenter.getMovieDetails(id);
     }
@@ -55,7 +66,29 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void showMovieDetails(MovieDetails movieDetails) {
-        tv.setText(movieDetails.getTitle());
+
+        //Show title
+        title.setText(movieDetails.getTitle());
+
+        //Show release year
+        year.append("Year: ");
+        year.append(movieDetails.getRelease_date());
+
+        //Show genres
+        genres.append("Genre: ");
+        for(String genre : movieDetails.getGenres()){
+            if(!genre.equals(movieDetails.getGenres().get(0))){
+                genres.append(", ");
+            }
+            genres.append(genre);
+        }
+
+        //Show overview
+        overview.append("Overview: ");
+        overview.append(movieDetails.getOverview());
+
+        //Show backdrop image
+        Picasso.get().load(movieDetails.getBackdrop_url()).into(backdrop);
     }
 
     @Override
