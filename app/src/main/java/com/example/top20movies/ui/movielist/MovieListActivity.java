@@ -1,6 +1,7 @@
 package com.example.top20movies.ui.movielist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
 
     private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
     private MovieListContract.MovieListPresenter presenter;
 
     //-------------------------- Initial Settings --------------------------------------------------
@@ -34,9 +36,9 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     private void setRecyclerView(){
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        adapter = new MovieListAdapter(this);
+        recyclerView.setAdapter(adapter);
     }
 
     private void setPresenter(){
@@ -57,9 +59,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
 
     @Override
     public void showMovies(List<Movie> movies){
-        RecyclerView.Adapter adapter = new MovieListAdapter(this);
         ((MovieListAdapter) adapter).setMovies(movies);
-        recyclerView.setAdapter(adapter);
     }
 
 
@@ -80,7 +80,6 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     //----------------------------------------------------------------------------------------------
-
 
 
 

@@ -14,19 +14,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     private int id;
     private TextView tv;
-    private MovieDetails movieDetails;
     private MovieDetailsContract.MovieDetailsPresenter presenter;
+
+    //-------------------------- Initial settings --------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id",0);
-
+        setId();
         setTextField();
         setPresenter();
+    }
+
+    private void setId(){
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id",0);
+    }
+
+    private void setTextField(){
+        tv = findViewById(R.id.movie_details_id);
     }
 
     private void setPresenter(){
@@ -34,9 +42,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         presenter.getMovieDetails(id);
     }
 
-    public void setTextField(){
-        tv = findViewById(R.id.movie_details_id);
+    @Override
+    protected void onDestroy() {
+        presenter.destroyView();
+        super.onDestroy();
     }
+
+    //----------------------------------------------------------------------------------------------
+
+
+    //-------------------------- Output ------------------------------------------------------------
 
     @Override
     public void showMovieDetails(MovieDetails movieDetails) {
@@ -48,9 +63,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT);
     }
 
-    @Override
-    protected void onDestroy() {
-        presenter.destroyView();
-        super.onDestroy();
-    }
+    //----------------------------------------------------------------------------------------------
+
+
 }
