@@ -11,7 +11,7 @@ public class MoviesService {
 
     }
 
-    public static MovieDetailsAPI getMovieDetails(int id){
+    public static MovieDetailsAPI getMovieDetails(){
 
         return setURL().create(MovieDetailsAPI.class);
 

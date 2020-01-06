@@ -13,7 +13,6 @@ import retrofit2.Response;
 public class MovieListPresenter implements MovieListContract.MovieListPresenter {
 
     private MovieListContract.MovieListView view;
-    private List<Movie> movieList;
 
     public MovieListPresenter(MovieListContract.MovieListView view) {
         this.view = view;
@@ -37,8 +36,7 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                     view.showErrorMessage("Erro: "+response.code());
                     return;
                 }
-                movieList = response.body();
-                view.showMovies(movieList);
+                view.showMovies(response.body());
             }
 
             @Override

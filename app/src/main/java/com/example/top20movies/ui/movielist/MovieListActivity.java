@@ -19,6 +19,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     private RecyclerView recyclerView;
     private MovieListContract.MovieListPresenter presenter;
 
+    //-------------------------- Initial Settings --------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,17 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         presenter.getMovies();
     }
 
+    //Break the view reference in presenter on view destroy
+    @Override
+    protected void onDestroy() {
+        presenter.destroyView();
+        super.onDestroy();
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Output ------------------------------------------------------------
+
     @Override
     public void showMovies(List<Movie> movies){
         RecyclerView.Adapter adapter = new MovieListAdapter(this);
@@ -55,17 +68,20 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
 
-    //Break the view reference in presenter on view destroy
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.destroyView();
-    }
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Event Handler -----------------------------------------------------
 
     @Override
     public void onMovieClick(Movie movie) {
-        Toast.makeText(this,"Test"+movie.getId(),Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra("id",movie.getId());
         startActivity(intent);
     }
+
+    //----------------------------------------------------------------------------------------------
+
+
+
+
 }
