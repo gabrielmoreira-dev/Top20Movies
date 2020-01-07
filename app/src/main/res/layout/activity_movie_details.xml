@@ -6,22 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ui.moviedetails.MovieDetailsActivity">
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image-movie-details"
+        <RelativeLayout
+            android:id="@+id/layout_image_movie_details"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:scaleType="fitXY"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image-movie-details"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:scaleType="fitXY"/>
+
+            <ProgressBar
+                android:id="@+id/loading_backdrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@android:color/darker_gray"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/image-movie-details"
+            android:layout_below="@+id/layout_image_movie_details"
             android:padding="20dp">
 
             <TextView
@@ -57,9 +70,18 @@
 
         </RelativeLayout>
 
-
-
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/loading_movie_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:indeterminateTint="@android:color/darker_gray"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
