@@ -2,7 +2,6 @@ package com.example.top20movies.ui.moviedetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +22,8 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private TextView genres;
     private TextView overview;
     private ImageView backdrop;
-    private ProgressBar progressBar;
+    private ProgressBar imageProgressBar;
+    private ProgressBar screenProgressBar;
     private MovieDetailsContract.MovieDetailsPresenter presenter;
 
     //-------------------------- Initial settings --------------------------------------------------
@@ -39,8 +39,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     }
 
     private void setId(){
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id",0);
+        this.id = getIntent().getIntExtra("id",0);
     }
 
     private void configureComponents(){
@@ -49,18 +48,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         this.genres = findViewById(R.id.movie_details_genres);
         this.overview = findViewById(R.id.movie_details_overview);
         this.backdrop = findViewById(R.id.image_movie_details);
-        this.progressBar = findViewById(R.id.loading_backdrop);
+        this.imageProgressBar = findViewById(R.id.loading_backdrop);
+        this.screenProgressBar = findViewById(R.id.loading_movie_details);
     }
 
 
     private void configurePresenter(){
-        presenter = new MovieDetailsPresenter(this,findViewById(R.id.loading_movie_details));
-        presenter.getMovieDetails(id);
+        this.presenter = new MovieDetailsPresenter(this);
+        this.presenter.getMovieDetails(id);
     }
 
     @Override
     protected void onDestroy() {
-        presenter.destroyView();
+        this.presenter.destroyView();
         super.onDestroy();
     }
 
@@ -72,34 +72,28 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     @Override
     public void showMovieDetails(MovieDetails movieDetails) {
 
-        //Show title
-        title.setText(movieDetails.getTitle());
-
-        //Show release year
-        year.append(movieDetails.getRelease_date().substring(0,4));
-
-        //Show genres
+        //Show movie info
+        this.title.setText(movieDetails.getTitle());
+        this.year.append(movieDetails.getRelease_date().substring(0,4));
         for(String genre : movieDetails.getGenres()){
             if(!genre.equals(movieDetails.getGenres().get(0))){
-                genres.append(", ");
+                this.genres.append(", ");
             }
-            genres.append(genre);
+            this.genres.append(genre);
         }
-
-        //Show overview
-        overview.append(movieDetails.getOverview());
+        this.overview.append(movieDetails.getOverview());
 
         //Show backdrop image
-        setLoadingBarVisibility(true);
+        setLoadingBarVisibility(true,2);
         Picasso.get().load(movieDetails.getBackdrop_url()).into(backdrop, new Callback() {
             @Override
             public void onSuccess() {
-                setLoadingBarVisibility(false);
+                setLoadingBarVisibility(false,2);
             }
 
             @Override
             public void onError(Exception e) {
-                setLoadingBarVisibility(false);
+                setLoadingBarVisibility(false,2);
             }
         });
     }
@@ -109,16 +103,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT);
     }
 
-    //----------------------------------------------------------------------------------------------
-
-    //-------------------------- Inform user that data is loading ----------------------------------
-
-    private void setLoadingBarVisibility(boolean setVisible){
-        if(setVisible){
-            progressBar.setVisibility(View.VISIBLE);
+    @Override
+    public void setLoadingBarVisibility(boolean setVisible, int code) {
+        switch (code){
+            case 1: if(setVisible){
+                    this.screenProgressBar.setVisibility(View.VISIBLE);
+                }
+                else this.screenProgressBar.setVisibility(View.INVISIBLE);
+                break;
+            case 2: if(setVisible){
+                    this.imageProgressBar.setVisibility(View.VISIBLE);
+                }
+                else this.imageProgressBar.setVisibility(View.INVISIBLE);;
+                break;
         }
-        else progressBar.setVisibility(View.INVISIBLE);
-
     }
 
     //----------------------------------------------------------------------------------------------

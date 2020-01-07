@@ -12,6 +12,8 @@ public interface MovieListContract {
 
         void showErrorMessage(String msg);
 
+        void setLoadingBarVisibility(boolean setVisible);
+
     }
 
     interface MovieListPresenter{
