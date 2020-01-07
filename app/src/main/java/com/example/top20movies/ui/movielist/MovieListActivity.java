@@ -41,11 +41,11 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     private void configureRecyclerView(){
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new MovieListAdapter(this);
-        recyclerView.setAdapter(adapter);
+        this.recyclerView = findViewById(R.id.recycler_view);
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        this.adapter = new MovieListAdapter(this);
+        this.recyclerView.setAdapter(adapter);
     }
 
     private void configurePresenter(){
@@ -56,7 +56,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     //Break the view reference in presenter on view destroy
     @Override
     protected void onDestroy() {
-        presenter.destroyView();
+        this.presenter.destroyView();
         super.onDestroy();
     }
 
@@ -77,9 +77,9 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     @Override
     public void setLoadingBarVisibility(boolean setVisible) {
         if(setVisible){
-            progressBar.setVisibility(View.VISIBLE);
+            this.progressBar.setVisibility(View.VISIBLE);
         }
-        else progressBar.setVisibility(View.INVISIBLE);
+        else this.progressBar.setVisibility(View.INVISIBLE);
     }
 
 

@@ -1,8 +1,8 @@
 package com.example.top20movies.ui.moviedetails;
 
 import com.example.top20movies.data.model.MovieDetails;
-import com.example.top20movies.data.network.MovieDetailsAPI;
-import com.example.top20movies.data.network.MoviesService;
+import com.example.top20movies.data.network.moviedetails.MovieDetailsRepository;
+import com.example.top20movies.data.network.moviedetails.MovieDetailsService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,11 +11,15 @@ import retrofit2.Response;
 public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsPresenter {
 
     private MovieDetailsContract.MovieDetailsView view;
+    private MovieDetailsRepository repository;
 
     //-------------------------- Initial settings --------------------------------------------------
 
     public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view) {
+
         this.view = view;
+        this.repository = new MovieDetailsRepository();
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -38,23 +42,20 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     @Override
     public void getMovieDetails(int id) {
-        MovieDetailsAPI api = MoviesService.getMovieDetails();
 
-        this.view.setLoadingBarVisibility(true,1);
+        if(view != null)
+            this.view.setLoadingBarVisibility(true,1);
 
-        Call<MovieDetails> call = api.getMovieDetails(id);
-        call.enqueue(new Callback<MovieDetails>() {
+        this.repository.getMovieDetails(id, new Callback<MovieDetails>() {
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
 
                 if(view != null) {
                     view.setLoadingBarVisibility(false, 1);
-
                     if (!response.isSuccessful()) {
                         view.showErrorMessage("Erro: " + response.code());
                         return;
                     }
-
                     view.showMovieDetails(response.body());
                 }
             }
