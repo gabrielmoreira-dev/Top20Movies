@@ -10,6 +10,8 @@ public interface MovieDetailsContract {
 
         void showErrorMessage(String msg);
 
+        void setLoadingBarVisibility(boolean setVisible, int code);
+
     }
 
     interface MovieDetailsPresenter{

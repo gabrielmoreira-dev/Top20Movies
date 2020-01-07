@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.top20movies.R;
@@ -19,6 +21,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private MovieListContract.MovieListPresenter presenter;
+    private ProgressBar progressBar;
 
     //-------------------------- Initial Settings --------------------------------------------------
 
@@ -27,12 +30,17 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        setRecyclerView();
-        setPresenter();
+        configureComponents();
+        configurePresenter();
 
     }
 
-    private void setRecyclerView(){
+    private void configureComponents(){
+        this.progressBar = findViewById(R.id.loading_movie_list);
+        configureRecyclerView();
+    }
+
+    private void configureRecyclerView(){
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -40,8 +48,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         recyclerView.setAdapter(adapter);
     }
 
-    private void setPresenter(){
-        presenter = new MovieListPresenter(this,findViewById(R.id.loading_movie_list));
+    private void configurePresenter(){
+        presenter = new MovieListPresenter(this);
         presenter.getMovies();
     }
 
@@ -61,11 +69,19 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         ((MovieListAdapter) adapter).setMovies(movies);
     }
 
-
     @Override
     public void showErrorMessage(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void setLoadingBarVisibility(boolean setVisible) {
+        if(setVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else progressBar.setVisibility(View.INVISIBLE);
+    }
+
 
     //----------------------------------------------------------------------------------------------
 
