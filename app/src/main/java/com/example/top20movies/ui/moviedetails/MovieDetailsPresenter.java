@@ -1,5 +1,8 @@
 package com.example.top20movies.ui.moviedetails;
 
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.example.top20movies.data.model.MovieDetails;
 import com.example.top20movies.data.network.MovieDetailsAPI;
 import com.example.top20movies.data.network.MoviesService;
@@ -11,11 +14,13 @@ import retrofit2.Response;
 public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsPresenter {
 
     private MovieDetailsContract.MovieDetailsView view;
+    private ProgressBar progressBar;
 
     //-------------------------- Initial settings --------------------------------------------------
 
-    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view) {
+    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view, ProgressBar progressBar) {
         this.view = view;
+        this.progressBar = progressBar;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -40,22 +45,47 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
     public void getMovieDetails(int id) {
         MovieDetailsAPI api = MoviesService.getMovieDetails();
 
+        setProgressBarVisibility(true);
+
         Call<MovieDetails> call = api.getMovieDetails(id);
         call.enqueue(new Callback<MovieDetails>() {
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
+
+                setProgressBarVisibility(false);
+
                 if(!response.isSuccessful()){
-                    view.showErrorMessage("Erro: "+response.code());
+                    if(view != null)
+                        view.showErrorMessage("Erro: "+response.code());
                     return;
                 }
-                view.showMovieDetails(response.body());
+
+                if(view != null)
+                    view.showMovieDetails(response.body());
             }
 
             @Override
             public void onFailure(Call<MovieDetails> call, Throwable t) {
-                view.showErrorMessage(t.getMessage());
+
+                setProgressBarVisibility(false);
+
+                if(view != null)
+                    view.showErrorMessage(t.getMessage());
+
             }
         });
+
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    //-------------------------- Inform user that data is loading ----------------------------------
+
+    private void setProgressBarVisibility(boolean setVisible){
+        if(setVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else progressBar.setVisibility(View.INVISIBLE);
 
     }
 

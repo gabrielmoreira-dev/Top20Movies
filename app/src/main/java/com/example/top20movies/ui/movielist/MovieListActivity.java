@@ -42,7 +42,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     private void setPresenter(){
-        presenter = new MovieListPresenter(this);
+        presenter = new MovieListPresenter(this,findViewById(R.id.loading_movie_list));
         presenter.getMovies();
     }
 

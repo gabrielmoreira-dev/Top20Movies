@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.top20movies.R;
 import com.example.top20movies.data.model.MovieDetails;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailsContract.MovieDetailsView {
@@ -20,6 +23,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     private TextView genres;
     private TextView overview;
     private ImageView backdrop;
+    private ProgressBar progressBar;
     private MovieDetailsContract.MovieDetailsPresenter presenter;
 
     //-------------------------- Initial settings --------------------------------------------------
@@ -45,11 +49,12 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         this.genres = findViewById(R.id.movie_details_genres);
         this.overview = findViewById(R.id.movie_details_overview);
         this.backdrop = findViewById(R.id.image_movie_details);
+        this.progressBar = findViewById(R.id.loading_backdrop);
     }
 
 
     private void configurePresenter(){
-        presenter = new MovieDetailsPresenter(this);
+        presenter = new MovieDetailsPresenter(this,findViewById(R.id.loading_movie_details));
         presenter.getMovieDetails(id);
     }
 
@@ -88,7 +93,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         overview.append(movieDetails.getOverview());
 
         //Show backdrop image
-        Picasso.get().load(movieDetails.getBackdrop_url()).into(backdrop);
+        setLoadingBarVisibility(true);
+        Picasso.get().load(movieDetails.getBackdrop_url()).into(backdrop, new Callback() {
+            @Override
+            public void onSuccess() {
+                setLoadingBarVisibility(false);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                setLoadingBarVisibility(false);
+            }
+        });
     }
 
     @Override
@@ -98,5 +114,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     //----------------------------------------------------------------------------------------------
 
+    //-------------------------- Inform user that data is loading ----------------------------------
+
+    private void setLoadingBarVisibility(boolean setVisible){
+        if(setVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else progressBar.setVisibility(View.INVISIBLE);
+
+    }
+
+    //----------------------------------------------------------------------------------------------
 
 }
