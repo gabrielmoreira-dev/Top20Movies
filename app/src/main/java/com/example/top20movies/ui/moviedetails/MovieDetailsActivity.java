@@ -76,11 +76,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         title.setText(movieDetails.getTitle());
 
         //Show release year
-        year.append("Year: ");
-        year.append(movieDetails.getRelease_date());
+        year.append(movieDetails.getRelease_date().substring(0,4));
 
         //Show genres
-        genres.append("Genre: ");
         for(String genre : movieDetails.getGenres()){
             if(!genre.equals(movieDetails.getGenres().get(0))){
                 genres.append(", ");
@@ -89,7 +87,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         }
 
         //Show overview
-        overview.append("Overview: ");
         overview.append(movieDetails.getOverview());
 
         //Show backdrop image
