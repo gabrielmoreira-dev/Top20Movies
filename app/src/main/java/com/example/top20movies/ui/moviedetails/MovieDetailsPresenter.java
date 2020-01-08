@@ -1,5 +1,6 @@
 package com.example.top20movies.ui.moviedetails;
 
+import com.example.top20movies.R;
 import com.example.top20movies.data.model.MovieDetails;
 import com.example.top20movies.data.network.moviedetails.MovieDetailsRepository;
 
@@ -56,7 +57,13 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
                 if(view != null) {
                     view.setLoadingBarVisibility(false, 1);
                     if (!response.isSuccessful()) {
-                        view.showErrorMessage("Erro: " + response.code());
+                        view.showErrorMessage(
+                                String.format(
+                                        MovieDetailsActivity.getAppContext().getResources().getString(R.string.error),
+                                        response.code(),
+                                        response.message()
+                                )
+                        );
                         MovieDetails movieDetailsCache = repository.loadMovieDetails(id, folder);
                         if(movieDetailsCache != null)
                             view.showMovieDetails(movieDetailsCache);
@@ -72,7 +79,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
                 if(view != null) {
                     view.setLoadingBarVisibility(false, 1);
-                    view.showErrorMessage(t.getMessage());
+                    view.showErrorMessage(
+                            MovieDetailsActivity.getAppContext().getResources().getString(
+                                    R.string.error_connection
+                            )
+                    );
                     MovieDetails movieDetailsCache = repository.loadMovieDetails(id, folder);
                     if(movieDetailsCache != null)
                         view.showMovieDetails(movieDetailsCache);

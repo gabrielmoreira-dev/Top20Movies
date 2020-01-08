@@ -1,10 +1,12 @@
 <resources>
 
     <string name="app_name">Top 20 Movies</string>
-    <string name="noOverview">No Overview</string>
+    <string name="error">Error %d: %s</string>
+    <string name="error_connection">Verify your internet connection</string>
+    <string name="no_overview">No Overview</string>
     <string name="runtime">%d min</string>
-    <string name="unknowedGenre">Unknowed Genre</string>
-    <string name="unknowedRuntime">Unknowed Runtime</string>
-    <string name="unknowedTitle">Unknowed Title</string>
-    <string name="unknowedYear">Unknowed Year</string>
+    <string name="unknowed_genre">Unknowed Genre</string>
+    <string name="unknowed_runtime">Unknowed Runtime</string>
+    <string name="unknowed_title">Unknowed Title</string>
+    <string name="unknowed_year">Unknowed Year</string>
 </resources>
