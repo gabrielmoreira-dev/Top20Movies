@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Top 20 Movies</string>
+    <string name="min">min</string>
+    <string name="noOverview">No Overview</string>
+    <string name="unknowedGenre">Unknowed Genre</string>
+    <string name="unknowedRuntime">Unknowed Runtime</string>
+    <string name="unknowedTitle">Unknowed Title</string>
+    <string name="unknowedYear">Unknowed Year</string>
 </resources>

@@ -54,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_below="@+id/movie_details_title"
-                android:paddingHorizontal="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:textSize="14sp"
                 android:textColor="@android:color/holo_blue_dark"
                 tools:text="Average"/>
@@ -72,9 +73,9 @@
                 android:id="@+id/movie_details_runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/movie_details_year"
+                android:layout_toEndOf="@+id/movie_details_year"
                 android:layout_below="@+id/movie_details_vote_average"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:textStyle="italic"
                 android:textSize="14sp"
                 tools:text="Runtime"/>

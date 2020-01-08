@@ -2,7 +2,6 @@ package com.example.top20movies.ui.moviedetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -80,20 +79,20 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         //Show movie info
         if(movieDetails.getTitle() != null && movieDetails.getTitle() != "")
             this.title.setText(movieDetails.getTitle());
-        else this.title.setText("Unknowed title");
+        else this.title.setText(R.string.unknowedTitle);
 
-        this.voteAverage.setText(String.valueOf(movieDetails.getVote_average()));
+        this.voteAverage.setText(String.valueOf(movieDetails.getVoteAverage()));
         this.voteAverage.setBackgroundResource(R.drawable.vote_average_border);
 
-        if(movieDetails.getRelease_date() != null && movieDetails.getRelease_date() != "") {
-            this.year.append(movieDetails.getRelease_date().substring(0, 4));
+        if(movieDetails.getReleaseDate() != null && movieDetails.getReleaseDate() != "") {
+            this.year.append(movieDetails.getReleaseDate().substring(0, 4));
             this.year.append(",");
         }
-        else this.year.setText("Unknowed Year,");
+        else this.year.setText(R.string.unknowedYear);
 
         if(movieDetails.getRuntime() != 0)
-            this.runtime.setText(movieDetails.getRuntime() + " min");
-        else this.runtime.setText("Unknowed runtime");
+            this.runtime.setText(movieDetails.getRuntime() + " " + R.string.min);
+        else this.runtime.setText(R.string.unknowedRuntime);
 
         if(movieDetails.getGenres().size() != 0) {
             for (String genre : movieDetails.getGenres()) {
@@ -103,11 +102,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
                 this.genres.append(genre);
             }
         }
-        else this.genres.setText("Unknowed genre");
+        else this.genres.setText(R.string.unknowedGenre);
 
         if(movieDetails.getOverview() != null && movieDetails.getOverview() != "")
             this.overview.setText(movieDetails.getOverview());
-        else this.overview.setText("No overview");
+        else this.overview.setText(R.string.noOverview);
 
         //Show backdrop image
         setLoadingBarVisibility(true,2);
@@ -126,7 +125,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     @Override
     public void showErrorMessage(String msg) {
-        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override
