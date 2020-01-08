@@ -87,7 +87,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         //Show movie info
         if(movieDetails.getTitle() != null && movieDetails.getTitle() != "")
             this.title.setText(movieDetails.getTitle());
-        else this.title.setText(R.string.unknowedTitle);
+        else this.title.setText(R.string.unknowed_title);
 
         this.voteAverage.setText(String.valueOf(movieDetails.getVoteAverage()));
         this.voteAverage.setBackgroundResource(R.drawable.vote_average_border);
@@ -96,7 +96,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
             this.year.append(movieDetails.getReleaseDate().substring(0, 4));
             this.year.append(",");
         }
-        else this.year.setText(R.string.unknowedYear);
+        else this.year.setText(R.string.unknowed_year);
 
         if(movieDetails.getRuntime() != 0) {
 
@@ -107,7 +107,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
                     )
             );
         }
-        else this.runtime.setText(R.string.unknowedRuntime);
+        else this.runtime.setText(R.string.unknowed_runtime);
 
         if(movieDetails.getGenres().size() != 0) {
             for (String genre : movieDetails.getGenres()) {
@@ -117,11 +117,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
                 this.genres.append(genre);
             }
         }
-        else this.genres.setText(R.string.unknowedGenre);
+        else this.genres.setText(R.string.unknowed_genre);
 
         if(movieDetails.getOverview() != null && movieDetails.getOverview() != "")
             this.overview.setText(movieDetails.getOverview());
-        else this.overview.setText(R.string.noOverview);
+        else this.overview.setText(R.string.no_overview);
 
         //Show backdrop image
         setLoadingBarVisibility(true,2);

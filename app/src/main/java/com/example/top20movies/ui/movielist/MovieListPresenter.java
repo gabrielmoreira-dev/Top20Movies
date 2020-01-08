@@ -1,7 +1,9 @@
 package com.example.top20movies.ui.movielist;
 
+import com.example.top20movies.R;
 import com.example.top20movies.data.model.Movie;
 import com.example.top20movies.data.network.movielist.MovieListRepository;
+import com.example.top20movies.ui.moviedetails.MovieDetailsActivity;
 
 import java.io.File;
 import java.util.List;
@@ -54,7 +56,13 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                 if (view != null) {
                     view.setLoadingBarVisibility(false);
                     if (!response.isSuccessful()) {
-                        view.showErrorMessage("Erro: " + response.code());
+                        view.showErrorMessage(
+                                String.format(
+                                    MovieListActivity.getAppContext().getResources().getString(R.string.error),
+                                        response.code(),
+                                        response.message()
+                                )
+                        );
                         List<Movie> movieListCache = repository.loadMovieList(folder);
                         if(movieListCache != null)
                             view.showMovies(movieListCache);
@@ -69,7 +77,11 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
             public void onFailure(Call<List<Movie>> call, Throwable t) {
                 if (view != null) {
                     view.setLoadingBarVisibility(false);
-                    view.showErrorMessage(t.getMessage());
+                    view.showErrorMessage(
+                            MovieListActivity.getAppContext().getResources().getString(
+                                    R.string.error_connection
+                            )
+                    );
                     List<Movie> movieListCache = repository.loadMovieList(folder);
                     if(movieListCache != null)
                         view.showMovies(movieListCache);
