@@ -55,7 +55,9 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                     view.setLoadingBarVisibility(false);
                     if (!response.isSuccessful()) {
                         view.showErrorMessage("Erro: " + response.code());
-                        view.showMovies(repository.loadMovieList(folder));
+                        List<Movie> movieListCache = repository.loadMovieList(folder);
+                        if(movieListCache != null)
+                            view.showMovies(movieListCache);
                         return;
                     }
                     view.showMovies(response.body());
@@ -68,7 +70,9 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                 if (view != null) {
                     view.setLoadingBarVisibility(false);
                     view.showErrorMessage(t.getMessage());
-                    view.showMovies(repository.loadMovieList(folder));
+                    List<Movie> movieListCache = repository.loadMovieList(folder);
+                    if(movieListCache != null)
+                        view.showMovies(movieListCache);
                 }
             }
         });

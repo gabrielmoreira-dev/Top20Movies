@@ -3,6 +3,8 @@ package com.example.top20movies.ui.moviedetails;
 import com.example.top20movies.data.model.MovieDetails;
 import com.example.top20movies.data.network.moviedetails.MovieDetailsRepository;
 
+import java.io.File;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,13 +13,15 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     private MovieDetailsContract.MovieDetailsView view;
     private MovieDetailsRepository repository;
+    private File folder;
 
     //-------------------------- Initial settings --------------------------------------------------
 
-    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view) {
+    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view, File folder) {
 
         this.view = view;
         this.repository = new MovieDetailsRepository();
+        this.folder = folder;
 
     }
 
@@ -53,9 +57,13 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
                     view.setLoadingBarVisibility(false, 1);
                     if (!response.isSuccessful()) {
                         view.showErrorMessage("Erro: " + response.code());
+                        MovieDetails movieDetailsCache = repository.loadMovieDetails(id, folder);
+                        if(movieDetailsCache != null)
+                            view.showMovieDetails(movieDetailsCache);
                         return;
                     }
                     view.showMovieDetails(response.body());
+                    repository.storeMovieDetails(response.body(), folder);
                 }
             }
 
@@ -65,6 +73,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
                 if(view != null) {
                     view.setLoadingBarVisibility(false, 1);
                     view.showErrorMessage(t.getMessage());
+                    MovieDetails movieDetailsCache = repository.loadMovieDetails(id, folder);
+                    if(movieDetailsCache != null)
+                        view.showMovieDetails(movieDetailsCache);
                 }
 
             }
