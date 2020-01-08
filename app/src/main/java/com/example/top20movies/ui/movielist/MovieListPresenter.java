@@ -3,6 +3,7 @@ package com.example.top20movies.ui.movielist;
 import com.example.top20movies.data.model.Movie;
 import com.example.top20movies.data.network.movielist.MovieListRepository;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -13,14 +14,14 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
 
     private MovieListContract.MovieListView view;
     private MovieListRepository repository;
+    private File folder;
 
     //-------------------------- Initial settings --------------------------------------------------
 
-    public MovieListPresenter(MovieListContract.MovieListView view) {
-
+    public MovieListPresenter(MovieListContract.MovieListView view, File folder) {
         this.view = view;
         this.repository = new MovieListRepository();
-
+        this.folder = folder;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
 
     //----------------------------------------------------------------------------------------------
 
-    //-------------------------- API Call ----------------------------------------------------------
+    //-------------------------- Service Call ------------------------------------------------------
 
     @Override
     public void getMovies() {
@@ -54,9 +55,11 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                     view.setLoadingBarVisibility(false);
                     if (!response.isSuccessful()) {
                         view.showErrorMessage("Erro: " + response.code());
+                        view.showMovies(repository.loadMovieList(folder));
                         return;
                     }
                     view.showMovies(response.body());
+                    repository.storeMovieList(response.body(), folder);
                 }
             }
 
@@ -65,6 +68,7 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
                 if (view != null) {
                     view.setLoadingBarVisibility(false);
                     view.showErrorMessage(t.getMessage());
+                    view.showMovies(repository.loadMovieList(folder));
                 }
             }
         });

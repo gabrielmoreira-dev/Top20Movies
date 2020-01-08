@@ -2,7 +2,6 @@ package com.example.top20movies.ui.moviedetails;
 
 import com.example.top20movies.data.model.MovieDetails;
 import com.example.top20movies.data.network.moviedetails.MovieDetailsRepository;
-import com.example.top20movies.data.network.moviedetails.MovieDetailsService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
