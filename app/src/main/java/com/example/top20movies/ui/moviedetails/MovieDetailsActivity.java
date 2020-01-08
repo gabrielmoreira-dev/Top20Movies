@@ -2,6 +2,7 @@ package com.example.top20movies.ui.moviedetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     private int id;
     private TextView title;
+    private TextView voteAverage;
     private TextView year;
+    private TextView runtime;
     private TextView genres;
     private TextView overview;
     private ImageView backdrop;
@@ -44,7 +47,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
     private void setUpComponents(){
         this.title = findViewById(R.id.movie_details_title);
+        this.voteAverage = findViewById(R.id.movie_details_vote_average);
         this.year = findViewById(R.id.movie_details_year);
+        this.runtime = findViewById(R.id.movie_details_runtime);
         this.genres = findViewById(R.id.movie_details_genres);
         this.overview = findViewById(R.id.movie_details_overview);
         this.backdrop = findViewById(R.id.image_movie_details);
@@ -73,15 +78,36 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     public void showMovieDetails(MovieDetails movieDetails) {
 
         //Show movie info
-        this.title.setText(movieDetails.getTitle());
-        this.year.append(movieDetails.getRelease_date().substring(0,4));
-        for(String genre : movieDetails.getGenres()){
-            if(!genre.equals(movieDetails.getGenres().get(0))){
-                this.genres.append(", ");
-            }
-            this.genres.append(genre);
+        if(movieDetails.getTitle() != null && movieDetails.getTitle() != "")
+            this.title.setText(movieDetails.getTitle());
+        else this.title.setText("Unknowed title");
+
+        this.voteAverage.setText(String.valueOf(movieDetails.getVote_average()));
+        this.voteAverage.setBackgroundResource(R.drawable.vote_average_border);
+
+        if(movieDetails.getRelease_date() != null && movieDetails.getRelease_date() != "") {
+            this.year.append(movieDetails.getRelease_date().substring(0, 4));
+            this.year.append(",");
         }
-        this.overview.append(movieDetails.getOverview());
+        else this.year.setText("Unknowed Year,");
+
+        if(movieDetails.getRuntime() != 0)
+            this.runtime.setText(movieDetails.getRuntime() + " min");
+        else this.runtime.setText("Unknowed runtime");
+
+        if(movieDetails.getGenres().size() != 0) {
+            for (String genre : movieDetails.getGenres()) {
+                if (!genre.equals(movieDetails.getGenres().get(0))) {
+                    this.genres.append(", ");
+                }
+                this.genres.append(genre);
+            }
+        }
+        else this.genres.setText("Unknowed genre");
+
+        if(movieDetails.getOverview() != null && movieDetails.getOverview() != "")
+            this.overview.setText(movieDetails.getOverview());
+        else this.overview.setText("No overview");
 
         //Show backdrop image
         setLoadingBarVisibility(true,2);

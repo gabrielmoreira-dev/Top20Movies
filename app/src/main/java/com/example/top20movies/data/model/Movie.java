@@ -5,18 +5,14 @@ import java.util.List;
 public class Movie {
 
     private int id;
-    private double vote_average;
+    private transient double vote_average;
     private String title;
     private String poster_url;
-    private List<String> genres;
-    private String release_date;
+    private transient List<String> genres;
+    private transient String release_date;
 
     public int getId() {
         return id;
-    }
-
-    public double getVote_average() {
-        return vote_average;
     }
 
     public String getTitle() {
@@ -27,11 +23,4 @@ public class Movie {
         return poster_url;
     }
 
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public String getRelease_date() {
-        return release_date;
-    }
 }
