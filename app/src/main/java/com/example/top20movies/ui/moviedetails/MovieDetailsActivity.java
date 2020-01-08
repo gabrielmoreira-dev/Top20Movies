@@ -34,15 +34,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         setContentView(R.layout.activity_movie_details);
 
         setId();
-        configureComponents();
-        configurePresenter();
+        setUpComponents();
+        setUpPresenter();
     }
 
     private void setId(){
         this.id = getIntent().getIntExtra("id",0);
     }
 
-    private void configureComponents(){
+    private void setUpComponents(){
         this.title = findViewById(R.id.movie_details_title);
         this.year = findViewById(R.id.movie_details_year);
         this.genres = findViewById(R.id.movie_details_genres);
@@ -53,7 +53,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
     }
 
 
-    private void configurePresenter(){
+    private void setUpPresenter(){
         this.presenter = new MovieDetailsPresenter(this, getCacheDir());
         this.presenter.getMovieDetails(id);
     }

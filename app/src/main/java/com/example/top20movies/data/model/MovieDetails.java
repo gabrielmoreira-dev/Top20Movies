@@ -2,7 +2,7 @@ package com.example.top20movies.data.model;
 
 import java.util.List;
 
-public class MovieDetails {
+public class MovieDetails{
 
     private int id;
     private double vote_average;
@@ -29,6 +29,10 @@ public class MovieDetails {
     private String tagline;
     private boolean video;
     private int vote_count;
+
+    public MovieDetails(){
+        super();
+    }
 
     public int getId() {
         return id;
