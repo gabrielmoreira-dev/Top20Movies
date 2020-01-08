@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
 
+    private static Context context;
     private RecyclerView.Adapter adapter;
     private MovieListContract.MovieListPresenter presenter;
     private ProgressBar progressBar;
@@ -29,9 +31,15 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
+        context = getApplicationContext();
+
         setUpComponents();
         setUpPresenter();
 
+    }
+
+    public static Context getAppContext(){
+        return MovieListActivity.context;
     }
 
     private void setUpComponents(){
@@ -48,7 +56,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     private void setUpPresenter(){
-        presenter = new MovieListPresenter(this, getCacheDir());
+        presenter = new MovieListPresenter(this);
         presenter.getMovies();
     }
 
