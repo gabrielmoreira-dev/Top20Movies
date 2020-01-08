@@ -14,6 +14,7 @@ import com.example.top20movies.R;
 import com.example.top20movies.data.model.Movie;
 import com.example.top20movies.ui.moviedetails.MovieDetailsActivity;
 
+import java.io.File;
 import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
@@ -49,7 +50,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     private void configurePresenter(){
-        presenter = new MovieListPresenter(this);
+        presenter = new MovieListPresenter(this, getCacheDir());
         presenter.getMovies();
     }
 
