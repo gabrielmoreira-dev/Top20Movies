@@ -38,7 +38,7 @@ public class MovieDetails{
         return id;
     }
 
-    public double getVote_average() {
+    public double getVoteAverage() {
         return vote_average;
     }
 
@@ -50,7 +50,7 @@ public class MovieDetails{
         return genres;
     }
 
-    public String getRelease_date() {
+    public String getReleaseDate() {
         return release_date;
     }
 

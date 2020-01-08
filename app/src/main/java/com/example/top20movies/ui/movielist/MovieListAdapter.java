@@ -77,7 +77,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         holder.setProgressBarVisibility(true);
 
-        Picasso.get().load(movies.get(position).getPoster_url()).into(holder.poster, new Callback() {
+        Picasso.get().load(movies.get(position).getPosterUrl()).into(holder.poster, new Callback() {
             @Override
             public void onSuccess() {
                 holder.setProgressBarVisibility(false);

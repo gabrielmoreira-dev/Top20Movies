@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
 
-    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private MovieListContract.MovieListPresenter presenter;
     private ProgressBar progressBar;
@@ -41,11 +40,11 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     }
 
     private void setUpRecyclerView(){
-        this.recyclerView = findViewById(R.id.recycler_view);
-        this.recyclerView.setHasFixedSize(true);
-        this.recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         this.adapter = new MovieListAdapter(this);
-        this.recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     private void setUpPresenter(){
