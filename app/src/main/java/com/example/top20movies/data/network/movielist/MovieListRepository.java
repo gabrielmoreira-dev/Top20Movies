@@ -1,14 +1,11 @@
 package com.example.top20movies.data.network.movielist;
 
+import com.example.top20movies.data.cache.CacheStorage;
 import com.example.top20movies.data.model.Movie;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -48,13 +45,13 @@ public class MovieListRepository {
 
         File file = new File(folder, "movieList.txt");
 
-        writeData(file, movieListJson);
+        CacheStorage.writeData(file, movieListJson);
     }
 
     public List<Movie> loadMovieList(File folder){
         File file = new File(folder, "movieList.txt");
 
-        String movieListJson = readData(file);
+        String movieListJson = CacheStorage.readData(file);
 
         if(movieListJson == null){
             return null;
@@ -65,60 +62,6 @@ public class MovieListRepository {
         List<Movie> movieList = gson.fromJson(movieListJson, movieListType);
 
         return movieList;
-    }
-
-    private void writeData(File file, String data){
-
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(data.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        finally {
-            if(fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NullPointerException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private String readData(File file){
-
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-            StringBuffer buffer = new StringBuffer();
-            int read = fileInputStream.read();
-            while(read != -1){
-                buffer.append((char) read);
-                read = fileInputStream.read();
-            }
-            return buffer.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e){
-                e.printStackTrace();
-            }
-        }
-
-        return null;
     }
 
     //----------------------------------------------------------------------------------------------

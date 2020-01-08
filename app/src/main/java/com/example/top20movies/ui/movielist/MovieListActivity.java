@@ -14,7 +14,6 @@ import com.example.top20movies.R;
 import com.example.top20movies.data.model.Movie;
 import com.example.top20movies.ui.moviedetails.MovieDetailsActivity;
 
-import java.io.File;
 import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity implements MovieListContract.MovieListView, MovieListAdapter.MovieClickListener {
@@ -31,17 +30,17 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        configureComponents();
-        configurePresenter();
+        setUpComponents();
+        setUpPresenter();
 
     }
 
-    private void configureComponents(){
+    private void setUpComponents(){
         this.progressBar = findViewById(R.id.loading_movie_list);
-        configureRecyclerView();
+        setUpRecyclerView();
     }
 
-    private void configureRecyclerView(){
+    private void setUpRecyclerView(){
         this.recyclerView = findViewById(R.id.recycler_view);
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -49,7 +48,7 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
         this.recyclerView.setAdapter(adapter);
     }
 
-    private void configurePresenter(){
+    private void setUpPresenter(){
         presenter = new MovieListPresenter(this, getCacheDir());
         presenter.getMovies();
     }
