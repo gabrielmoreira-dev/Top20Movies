@@ -54,7 +54,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
 
     private void configurePresenter(){
-        this.presenter = new MovieDetailsPresenter(this);
+        this.presenter = new MovieDetailsPresenter(this, getCacheDir());
         this.presenter.getMovieDetails(id);
     }
 

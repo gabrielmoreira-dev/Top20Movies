@@ -56,6 +56,10 @@ public class MovieListRepository {
 
         String movieListJson = readData(file);
 
+        if(movieListJson == null){
+            return null;
+        }
+
         Gson gson = new Gson();
         Type movieListType = new TypeToken<List<Movie>>(){}.getType();
         List<Movie> movieList = gson.fromJson(movieListJson, movieListType);
@@ -79,6 +83,8 @@ public class MovieListRepository {
                 try {
                     fileOutputStream.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e){
                     e.printStackTrace();
                 }
             }
@@ -106,6 +112,8 @@ public class MovieListRepository {
             try {
                 fileInputStream.close();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e){
                 e.printStackTrace();
             }
         }
