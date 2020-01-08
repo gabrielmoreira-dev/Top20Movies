@@ -17,11 +17,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.MovieDetailsP
 
     //-------------------------- Initial settings --------------------------------------------------
 
-    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view, File folder) {
+    public MovieDetailsPresenter(MovieDetailsContract.MovieDetailsView view) {
 
         this.view = view;
         this.repository = new MovieDetailsRepository();
-        this.folder = folder;
+        this.folder = MovieDetailsActivity.getAppContext().getCacheDir();
 
     }
 

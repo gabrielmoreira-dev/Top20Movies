@@ -2,6 +2,7 @@ package com.example.top20movies.ui.moviedetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieDetailsContract.MovieDetailsView {
 
+    private static Context context;
     private int id;
     private TextView title;
     private TextView voteAverage;
@@ -35,9 +37,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        context = getApplicationContext();
+
         setId();
         setUpComponents();
         setUpPresenter();
+    }
+
+    public static Context getAppContext(){
+        return MovieDetailsActivity.context;
     }
 
     private void setId(){
@@ -58,7 +66,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
 
 
     private void setUpPresenter(){
-        this.presenter = new MovieDetailsPresenter(this, getCacheDir());
+        this.presenter = new MovieDetailsPresenter(this);
         this.presenter.getMovieDetails(id);
     }
 
@@ -90,8 +98,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieDeta
         }
         else this.year.setText(R.string.unknowedYear);
 
-        if(movieDetails.getRuntime() != 0)
-            this.runtime.setText(movieDetails.getRuntime() + " " + R.string.min);
+        if(movieDetails.getRuntime() != 0) {
+
+            this.runtime.setText(
+                    String.format(
+                            getResources().getString(R.string.runtime),
+                            movieDetails.getRuntime()
+                    )
+            );
+        }
         else this.runtime.setText(R.string.unknowedRuntime);
 
         if(movieDetails.getGenres().size() != 0) {

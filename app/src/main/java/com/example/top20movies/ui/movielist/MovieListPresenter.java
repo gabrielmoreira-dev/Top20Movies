@@ -14,14 +14,14 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter 
 
     private MovieListContract.MovieListView view;
     private MovieListRepository repository;
-    private File folder;
+    private final File folder;
 
     //-------------------------- Initial settings --------------------------------------------------
 
-    public MovieListPresenter(MovieListContract.MovieListView view, File folder) {
+    public MovieListPresenter(MovieListContract.MovieListView view) {
         this.view = view;
         this.repository = new MovieListRepository();
-        this.folder = folder;
+        this.folder = MovieListActivity.getAppContext().getCacheDir();
     }
 
     //----------------------------------------------------------------------------------------------
